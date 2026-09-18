@@ -33,7 +33,7 @@ function card(p,i){const cover=p.images[0],num=String(PROJECT_NUMBERS[p.slug]).p
 
 function renderResume(){
   document.title='Resume｜賴致潔';
-  view.innerHTML=`<section class="resume-hero"><figure class="portrait" role="img" aria-label="賴致潔個人照片保留空白"></figure><div class="resume-intro"><p class="eyebrow">Resume · Designer</p><h1>賴致潔<span>Chih-Chieh Lai</span></h1><p>橫跨室內、產品與視覺編排的設計工作者。從概念發展、空間呈現到案場監工，關注設計如何在真實使用與細節執行中成立。</p></div></section><section class="resume-grid">
+  view.innerHTML=`<section class="resume-hero"><figure class="portrait"><img src="assets/profile.jpg" width="772" height="1161" alt="賴致潔個人創作肖像"></figure><div class="resume-intro"><p class="eyebrow">Resume · Designer</p><h1>賴致潔<span>Chih-Chieh Lai</span></h1><p>橫跨室內、產品與視覺編排的設計工作者。從概念發展、空間呈現到案場監工，關注設計如何在真實使用與細節執行中成立。</p></div></section><section class="resume-grid">
   ${block('學歷 / Education','<ul><li><strong>實踐大學</strong>工業產品設計系</li></ul>')}
   ${block('專長 / Expertise','<div class="chips">'+['室內設計','案場監工','產品設計','編排設計','攝影'].map(chip).join('')+'</div>')}
   ${block('語言 / Languages','<div class="chips">'+['國語','台語','英語'].map(chip).join('')+'</div>')}
