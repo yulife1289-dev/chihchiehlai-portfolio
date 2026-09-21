@@ -14,7 +14,7 @@ Never add `.dev.vars`, secrets, webhook URLs, or generated credentials to Git.
 ## Limits and privacy
 
 - Request bodies are streamed and capped at 512 bytes.
-- The Worker keeps no application visitor log. At the owner's request it forwards Cloudflare's edge-provided visitor IP only in the signed, transient notification payload so the existing notification can display it; the browser cannot provide or override this field. The visitor limiter uses a SHA-256-derived request key only within Cloudflare's rate-limit window.
+- The Worker keeps no application visitor log. At the owner's request it forwards Cloudflare's edge-provided visitor IP and coarse location (country, region, city only; no coordinates) only in the signed notification payload so the existing notification can display them; the browser cannot provide or override these fields. The visitor limiter uses a SHA-256-derived request key only within Cloudflare's rate-limit window.
 - `VISITOR_RATE_LIMITER` permits four requests per minute per short-lived key; `NOTIFICATION_BUDGET` permits five forwards per minute per Cloudflare location.
 - Cloudflare Workers Rate Limiting is intentionally local to a Cloudflare location and eventually consistent. It is an abuse brake, **not** a strict global quota. The local n8n workflow retains its separate persisted five-minute notification cooldown shared by this notification flow.
 

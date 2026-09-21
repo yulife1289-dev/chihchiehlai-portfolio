@@ -99,6 +99,19 @@ function sourceIpForPayload(request) {
   return ipAddress && ipAddress.length <= 45 ? ipAddress : 'unavailable';
 }
 
+function locationPart(value) {
+  if (typeof value !== 'string') return null;
+  const normalized = value.trim();
+  return normalized && normalized.length <= 80 && /^[\p{L}\p{N}\s.'-]+$/u.test(normalized) ? normalized : null;
+}
+
+function sourceLocationForPayload(request) {
+  const location = [request.cf?.country, request.cf?.region, request.cf?.city]
+    .map(locationPart)
+    .filter(Boolean);
+  return location.length ? location.join(' / ') : 'unavailable';
+}
+
 async function hmacHex(secret, message) {
   const key = await crypto.subtle.importKey(
     'raw',
@@ -157,6 +170,7 @@ export async function handleRequest(request, env, { fetchImpl = fetch, now = Dat
     event: 'portfolio_visit',
     page,
     sourceIp: sourceIpForPayload(request),
+    sourceLocation: sourceLocationForPayload(request),
     test: false,
   });
   const timestamp = String(Math.floor(now / 1_000));

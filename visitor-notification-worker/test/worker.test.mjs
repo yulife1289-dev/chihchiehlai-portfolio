@@ -14,7 +14,7 @@ function makeEnv({ visitor = true, budget = true } = {}) {
 }
 
 function visitRequest({ page = '/chihchiehlai-portfolio/#projects', origin = ORIGIN, body, method = 'POST', headers = {} } = {}) {
-  return new Request('https://portfolio-visit-notify.example.workers.dev/visit', {
+  const request = new Request('https://portfolio-visit-notify.example.workers.dev/visit', {
     method,
     headers: {
       Origin: origin,
@@ -24,6 +24,8 @@ function visitRequest({ page = '/chihchiehlai-portfolio/#projects', origin = ORI
     },
     body: method === 'POST' ? (body ?? JSON.stringify({ page })) : undefined,
   });
+  Object.defineProperty(request, 'cf', { value: { country: 'TW', region: 'Taipei City', city: 'Taipei' } });
+  return request;
 }
 
 test('accepts a valid visit and signs a fixed payload', async () => {
@@ -42,6 +44,7 @@ test('accepts a valid visit and signs a fixed payload', async () => {
     event: 'portfolio_visit',
     page: '/chihchiehlai-portfolio/#projects',
     sourceIp: '203.0.113.9',
+    sourceLocation: 'TW / Taipei City / Taipei',
     test: false,
   });
   assert.match(upstream.init.headers['X-Portfolio-Signature'], /^v1=[0-9a-f]{64}$/);
