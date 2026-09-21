@@ -1,3 +1,8 @@
 tools/
 IMPLEMENTATION_NOTES.md
 .DS_Store
+visitor-notification-worker/.dev.vars*
+visitor-notification-worker/node_modules/
+visitor-notification-worker/test-results/
+visitor-notification-worker/playwright-report/
+visitor-notification-worker/.wrangler/

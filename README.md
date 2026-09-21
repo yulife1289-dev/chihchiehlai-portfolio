@@ -14,6 +14,10 @@ python3 -m http.server 8000
 
 將此資料夾內容放到 repository 根目錄，在 Settings → Pages 選擇從 branch 發布。所有資產使用相對路徑，可部署在帳號首頁或 repository 子路徑。目前正式網址為 <https://yulife1289-dev.github.io/chihchiehlai-portfolio/>。
 
+## 訪客通知安全路徑
+
+瀏覽器只會向 `portfolio-visit-notify` Cloudflare Worker 的 `/visit` 發送最小化頁面資料；Worker 驗證 Origin、頁面白名單、資料格式與大小後，以 HMAC 簽章轉送給本機 relay。ngrok 不再直接接受未驗證的通知 webhook。Worker 原始碼、限制說明與測試在 `visitor-notification-worker/`；網址與金鑰僅存在 Worker Secrets 與本機 Keychain，不會提交至 Git。
+
 ## 圖片保護限制
 
 網站已停用圖片右鍵選單、拖曳與 iOS 長按選單。這只能降低一般使用者直接另存圖片的便利性；公開網頁中的圖片仍可能透過瀏覽器快取、開發者工具或截圖取得。

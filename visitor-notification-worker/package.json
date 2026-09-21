@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-visit-notify",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/worker.test.mjs",
+    "test:e2e": "playwright test --config playwright.config.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "wrangler": "^4.135.0"
+  }
+}

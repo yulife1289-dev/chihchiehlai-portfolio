@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-visit-notify",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-21",
+  "ratelimits": [
+    {
+      "name": "VISITOR_RATE_LIMITER",
+      "namespace_id": "9102001",
+      "simple": { "limit": 4, "period": 60 }
+    },
+    {
+      "name": "NOTIFICATION_BUDGET",
+      "namespace_id": "9102002",
+      "simple": { "limit": 5, "period": 60 }
+    }
+  ]
+}
