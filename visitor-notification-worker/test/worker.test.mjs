@@ -19,6 +19,7 @@ function visitRequest({ page = '/chihchiehlai-portfolio/#projects', origin = ORI
     headers: {
       Origin: origin,
       'Content-Type': 'application/json',
+      'CF-Connecting-IP': '203.0.113.9',
       ...headers,
     },
     body: method === 'POST' ? (body ?? JSON.stringify({ page })) : undefined,
@@ -40,6 +41,7 @@ test('accepts a valid visit and signs a fixed payload', async () => {
   assert.deepEqual(JSON.parse(upstream.init.body), {
     event: 'portfolio_visit',
     page: '/chihchiehlai-portfolio/#projects',
+    sourceIp: '203.0.113.9',
     test: false,
   });
   assert.match(upstream.init.headers['X-Portfolio-Signature'], /^v1=[0-9a-f]{64}$/);

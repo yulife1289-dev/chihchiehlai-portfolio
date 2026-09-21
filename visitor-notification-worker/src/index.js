@@ -92,6 +92,13 @@ function randomNonce() {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
+function sourceIpForPayload(request) {
+  // Cloudflare supplies this request header at its edge. It is never read from
+  // the browser request body, so a visitor cannot choose the displayed value.
+  const ipAddress = request.headers.get('cf-connecting-ip')?.trim();
+  return ipAddress && ipAddress.length <= 45 ? ipAddress : 'unavailable';
+}
+
 async function hmacHex(secret, message) {
   const key = await crypto.subtle.importKey(
     'raw',
@@ -146,7 +153,12 @@ export async function handleRequest(request, env, { fetchImpl = fetch, now = Dat
     return response(429, origin, { error: 'rate_limited' });
   }
 
-  const outboundBody = JSON.stringify({ event: 'portfolio_visit', page, test: false });
+  const outboundBody = JSON.stringify({
+    event: 'portfolio_visit',
+    page,
+    sourceIp: sourceIpForPayload(request),
+    test: false,
+  });
   const timestamp = String(Math.floor(now / 1_000));
   const nonce = randomNonce();
   const signature = await hmacHex(env.RELAY_HMAC_SECRET, `v1.${RELAY_PATH}.${timestamp}.${nonce}.${outboundBody}`);
